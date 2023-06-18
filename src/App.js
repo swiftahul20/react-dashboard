@@ -1,25 +1,23 @@
-import Content from "./components/Content";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Router, Route } from "react-router-dom";
 import User from "./views/User";
+import AddUser from "./views/AddUser";
 import Dashboard from "./views/Dashboard";
 import Layout from "./components/Layout";
+import Settings from "./views/Settings";
 
 function App() {
   return (
     <BrowserRouter>
-    <Layout />
-      {/* <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/user" element={<User />} />
-      </Routes> */}
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="add-user" element={<AddUser />} />
+          <Route path="user-list" element={<User />} />
+        </Route>
+        <Route path="login" element={<div> this is login page</div>} />
+      </Routes>
     </BrowserRouter>
-    // <div>
-    //   <Navbar />
-    //   <Sidebar />
-    //   <Content />
-    // </div>
   );
 }
 

@@ -6,64 +6,49 @@ import {
 import { Sidebar } from 'flowbite-react';
 import { SidebarItemGroup } from 'flowbite-react/lib/esm/components/Sidebar/SidebarItemGroup';
 import TailwindIcon from '../assets/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg';
+import Content from './Content';
+import { DASHBOARD_SIDEBAR_LINKS } from '../lib/constants/navigation';
+import { SidebarItem } from 'flowbite-react/lib/esm/components/Sidebar/SidebarItem';
 
 const Sidebarr = () => {
-
-    const menus = [
-        {
-            name: 'Home', path: '/', icon: ''
-        },
-        {
-            name: 'User', path: '/user', icon: '',
-            submenu: [
-                {
-                    title: 'Add User', path: '/add-user',
-                },
-                {
-                    title: 'User List', path: '/user-list'
-                }
-            ]
-        },
-        { name: 'Settings', path: '/settings', icon: '' },
-    ]
-
-
     return (
-        <Sidebar className='fixed top-0 left-0 z-40 w-64 pr-0 border-r'>
-            <div className='font-semibold'>
-                <div className='h-12 w-12 ml-3 mb-6'>
-                    <img src={TailwindIcon} className='h-full w-full' />
+        <div>
+            <Sidebar className='fixed top-0 left-0 z-40 w-64 pr-0 border-r'>
+                <div>
+                    <div className='h-12 w-12 ml-3 mb-6'>
+                        <img src={TailwindIcon} className='h-full w-full' />
+                    </div>
+                    {DASHBOARD_SIDEBAR_LINKS.map((item) => (
+                        <Sidebar.Items>
+                            <SidebarItemGroup>
+                                {item.submenu ? (
+                                    <Sidebar.Collapse
+                                        className='text-left hover:text-blue-400'
+                                        label={item.label}
+                                    >
+                                        {item.submenu.map((submen, index) => (
+                                            <Link to={submen.path}>
+                                                <Sidebar.Item key={index} className='hover:text-blue-400 px-6'>
+                                                    {submen.label}
+                                                </Sidebar.Item>
+                                            </Link>
+                                        ))}
+                                    </Sidebar.Collapse>
+                                ) : (
+                                    <Link to={item.path}>
+                                        <SidebarItem
+                                            className='hover:text-blue-400'
+                                        >
+                                            {item.label}
+                                        </SidebarItem>
+                                    </Link>
+                                )}
+                            </SidebarItemGroup>
+                        </Sidebar.Items>
+                    ))}
                 </div>
-                {menus.map((menu, index) => (
-                    <Sidebar.Items key={index}>
-                        <SidebarItemGroup>
-                            {menu.submenu ? (
-                                <Sidebar.Collapse
-                                    className='text-left hover:text-blue-400'
-                                    label={menu.name}
-                                    icon={menu.icon}
-                                >
-                                    {menu.submenu.map((submen, index) => (
-                                        <Sidebar.Item key={index} className='hover:text-blue-400 px-6'>
-                                            {submen.title}
-                                        </Sidebar.Item>
-                                    ))}
-                                </Sidebar.Collapse>
-                            ) : (
-                                <Sidebar.Item
-                                    icon={menu.icon}
-                                    className='hover:text-blue-400'
-                                >
-                                    <p>
-                                        {menu.name}
-                                    </p>
-                                </Sidebar.Item>
-                            )}
-                        </SidebarItemGroup>
-                    </Sidebar.Items>
-                ))}
-            </div>
-        </Sidebar>
+            </Sidebar>
+        </div>
     )
 }
 
