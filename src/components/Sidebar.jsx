@@ -18,9 +18,9 @@ const Sidebarr = () => {
                     <div className='h-12 w-12 ml-3 mb-6'>
                         <img src={TailwindIcon} className='h-full w-full' />
                     </div>
-                    {DASHBOARD_SIDEBAR_LINKS.map((item) => (
+                    {/* {DASHBOARD_SIDEBAR_LINKS.map((item, index) => (
                         <Sidebar.Items>
-                            <SidebarItemGroup>
+                            <SidebarItemGroup key={index}>
                                 {item.submenu ? (
                                     <Sidebar.Collapse
                                         className='text-left hover:text-blue-400'
@@ -45,7 +45,7 @@ const Sidebarr = () => {
                                 )}
                             </SidebarItemGroup>
                         </Sidebar.Items>
-                    ))}
+                    ))} */}
                 </div>
             </Sidebar>
         </div>
