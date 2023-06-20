@@ -1,44 +1,11 @@
-import { HomeIcon, UserCircleIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
-
-// export const DASHBOARD_SIDEBAR_LINKS = [
-// 	{
-// 		key: 'dashboard',
-// 		label: 'Dashboard',
-// 		path: '/',
-// 		icon: <HomeIcon />
-// 	},
-// 	{
-// 		key: 'user',
-// 		label: 'User',
-// 		path: '/user',
-// 		icon: <UserCircleIcon />,
-//         submenu: [
-//             {
-//                 key: 'add-user',
-//                 label: 'Add User',
-//                 path: '/add-user'
-//             },
-//             {
-//                 key: 'user-list',
-//                 label: 'User List',
-//                 path: '/user-list'
-//             }
-//         ]
-// 	},
-// 	{
-// 		key: 'settings',
-// 		label: 'Settings',
-// 		path: '/settings',
-// 		icon: <Cog6ToothIcon />
-// 	},
-// ]
+import { HomeIcon, UserCircleIcon, UserPlusIcon, UsersIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
 
 const navigation = [
 	{
-		path: '/app/dashboard',
+		path: '/',
 		icon: <HomeIcon className={iconClasses} />,
 		name: 'Dashboard',
 	},
@@ -49,18 +16,18 @@ const navigation = [
 		submenu: [
 			{ 
 				path: '/add-user',
-				icon: <UserCircleIcon className={submenuIconClasses} />,
+				icon: <UserPlusIcon className={submenuIconClasses} />,
 				name: 'Add User',
 			},
 			{
 				path: '/user-list', //url
-				icon: <UserCircleIcon className={submenuIconClasses} />, // icon component
+				icon: <UsersIcon className={submenuIconClasses} />, // icon component
 				name: 'User List', // name that appear in Sidebar
 			},
 		]
 	},
 	{
-		path: '/app/settings',
+		path: '/settings',
 		icon: <Cog6ToothIcon className={iconClasses} />,
 		name: 'Settings',
 	}
