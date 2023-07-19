@@ -14,6 +14,10 @@ const corsOptions = {
 //register cors middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use((err, req, res, next) => {
+  console.log('congrats you hit the error middleware');
+  console.log(err);
+});
 
 //connect to db
 const mongooseConfig = {

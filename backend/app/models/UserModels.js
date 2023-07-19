@@ -1,15 +1,43 @@
 module.exports = (mongoose) => {
   const schema = mongoose.Schema({
-    first_name: String,
-    last_name: String,
-    gender: String,
-    age: Number,
-    phone: String,
+    first_name: {
+      type: String,
+      required: [true, 'Enter a first name.']
+    },
+    last_name: {
+      type: String,
+      required: [true, 'Enter a last name']
+    },
+    gender: {String},
+    phone: {
+      type: String,
+      required: [true, 'Enter a phone number']
+    },
+    email: {  
+      type: String,
+      required: [true, 'Enter a email']
+    },
     address: {
-      street_name: String,
-      province: String,
-      regency: String,
-      district: String,
+      street_name: {  
+        type: String,
+        required: [true, 'Enter a street name']
+      },
+      province: {  
+        type: String,
+        required: [true, 'Enter a province']
+      },
+      regency: {  
+        type: String,
+        required: [true, 'Enter a regency']
+      },
+      district: {  
+        type: String,
+        required: [true, 'Enter a email']
+      },
+    },
+    dob: {  
+      type: String,
+      required: [true, 'Enter a dob']
     },
     time : { 
       type : Date, 

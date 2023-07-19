@@ -55,9 +55,22 @@ exports.create = (req, res) => {
 
     Users.create(req.body)
     try {
-        res.send({message: "Data stored."})
+        res.send(req.body);
     } catch (error) {
-        res.status(500).send({message: error.message});
+        if (error.response) {
+            // If server responded with a status code for a request
+            console.log("Data ", error.response.data);
+            console.log("Status ", error.response.status);
+            console.log("Headers ", error.response.headers);
+        } else if (error.request) {
+            // Client made a request but response is not received
+            console.log("called", error.request);
+        } else {
+            // Other case
+            console.log("Error", error.message);
+        }
+        // res.status(500).send({message: error.message});
+        return res.status(401).send(error.message);
     }
 }
 

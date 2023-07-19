@@ -7,7 +7,6 @@ import Settings from "./views/Settings";
 import UserList from "./views/UserList";
 import EditUser from "./views/EditUser";
 
-
 function App() {
   return (
     <BrowserRouter>
