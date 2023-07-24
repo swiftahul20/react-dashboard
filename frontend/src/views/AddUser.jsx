@@ -61,16 +61,27 @@ const AddUser = () => {
         }
     };
 
-    // const onSubmit = async (data) => {
-    //     // setloading(true);
-    //     try {
-    //         const response = await axios.post("http://localhost:8000/users", data);
-    //         // setloading(false);
-    //         console.log(response.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    const onSubmit = async (data) => {
+        // setloading(true);
+        try {
+            const response = await axios.post("http://localhost:8000/users", data);
+            // setloading(false);
+            toastSuccess("Form is Submitted");
+            console.log(response.data);
+        }
+        catch (error) {
+            if (error?.response?.data?.status === 401 && error?.response?.data?.errors) {
+                // log the errors to console log
+                for (const e of error.response.data.errors) {
+                    console.log(e);
+                }
+
+                console.log(error.response.data.message);
+                return;
+            }
+            console.log('Error: Something else is wrong. Error:', error);
+        }
+    };
 
     const handleClick = async (apiEndpoint) => {
         const data = await GETProvince(apiEndpoint)
@@ -96,15 +107,11 @@ const AddUser = () => {
 
     const { errors } = formState;
 
-    const submitSuccess = () => {
-        toastSuccess("Form is Submitted");
-    }
+    // const onSubmit = (data) => {
+    //     toastSuccess("Form is Submitted");
+    //     console.log('Form Submitted', data);
+    // }
 
-    const onSubmit = (data) => {
-        submitSuccess();
-        console.log('Form Submitted', data);
-    }
-    
 
 
     return (
@@ -182,7 +189,6 @@ const AddUser = () => {
                                     placeholder="Email Address"
                                     className="input input-bordered input-sm w-full max-w-xs"
                                     {...register("email", {
-                                        required: '* Email is required',
                                         pattern: {
                                             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                                             message: '* Invalid email format',
@@ -236,9 +242,7 @@ const AddUser = () => {
                                     id="street_name"
                                     placeholder="Address"
                                     className="textarea textarea-bordered h-24 textarea-sm"
-                                    {...register("address.street_name", {
-                                        required: '* Address is required'
-                                    })}
+                                    {...register("address.street_name")}
                                 ></textarea>
                                 <p className="text-error text-xs py-1 px-1">
                                     {errors.address?.street_name?.message}

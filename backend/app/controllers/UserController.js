@@ -46,70 +46,68 @@
 //     }
 // }
 
-const db = require('../models');
+const db = require("../models");
 const Users = db.user;
 
 exports.create = (req, res) => {
-    
-    req.body.first_name = new String(req.body.first_name)
-
-    Users.create(req.body)
-    try {
-        res.send(req.body);
-    } catch (error) {
-        if (error.response) {
-            // If server responded with a status code for a request
-            console.log("Data ", error.response.data);
-            console.log("Status ", error.response.status);
-            console.log("Headers ", error.response.headers);
-        } else if (error.request) {
-            // Client made a request but response is not received
-            console.log("called", error.request);
-        } else {
-            // Other case
-            console.log("Error", error.message);
-        }
-        // res.status(500).send({message: error.message});
-        return res.status(401).send(error.message);
+  let data = req.body;
+  Users.create(req.body);
+  try {
+    res.status(200).send(req.body);
+  } catch (error) {
+    if (error.response) {
+      // If server responded with a status code for a request
+      console.log("Data ", error.response.data);
+      console.log("Status ", error.response.status);
+      console.log("Headers ", error.response.headers);
+    } else if (error.request) {
+      // Client made a request but response is not received
+      console.log("called", error.request);
+    } else {
+      // Other case
+      console.log("Error", error.message);
     }
-}
+    // res.status(500).send({message: error.message});
+    return res.status(401).send(error.message);
+  }
+};
 
 exports.findAll = (req, res) => {
-    Users.find()
-        .then(data => res.send(data))
-        .catch(err => res.status(500).send({message: err.message}))
-}
+  Users.find()
+    .then((data) => res.send(data))
+    .catch((err) => res.status(500).send({ message: err.message }));
+};
 
 exports.show = (req, res) => {
-    const id =  req.params.id;
+  const id = req.params.id;
 
-    Users.findById(id)
-        .then(data => res.send(data))
-        .catch(err => res.status(500).send({message: err.message}))
-}
+  Users.findById(id)
+    .then((data) => res.send(data))
+    .catch((err) => res.status(500).send({ message: err.message }));
+};
 
 exports.update = (req, res) => {
-    const id =  req.params.id;
+  const id = req.params.id;
 
-    Users.findByIdAndUpdate(id, req.body, {UserFindAndModify: false})
-        .then(data => {
-            if (!data) {
-                res.status(404).send({message: "Server | cannot update data"})
-            }
-            res.send({message: "Server | Data has been updated."})
-        })
-        .catch(err => res.status(500).send({message: err.message}))
-}
+  Users.findByIdAndUpdate(id, req.body, { UserFindAndModify: false })
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: "Server | cannot update data" });
+      }
+      res.send({ message: "Server | Data has been updated." });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
+};
 
 exports.delete = (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    Users.findByIdAndRemove(id)
-        .then(data => {
-            if (!data) {
-                res.status(404).send({message: "Server | Cannot delete data."})
-            }
-            res.send({message: "Server | Data deleted."})
-        })
-        .catch(err => res.status(500).send({message: err.message}))
-}
+  Users.findByIdAndRemove(id)
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: "Server | Cannot delete data." });
+      }
+      res.send({ message: "Server | Data deleted." });
+    })
+    .catch((err) => res.status(500).send({ message: err.message }));
+};
