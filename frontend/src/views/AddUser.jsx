@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { toastSuccess, toastError } from "../components/Toast.jsx";
 
+const serverURI = 'http://ec2-3-27-95-22.ap-southeast-2.compute.amazonaws.com:8000';
+
 const AddUser = () => {
     const [district, setDistrict] = useState("");
 
@@ -64,7 +66,7 @@ const AddUser = () => {
     const onSubmit = async (data) => {
         setloading(true);
         try {
-            const response = await axios.post("http://localhost:8000/users", data);
+            const response = await axios.post(`${serverURI}/users`, data);
             if (response.status === 201 || response.status === 204) {
                 setloading(false);
                 toastSuccess("Form is Submitted");

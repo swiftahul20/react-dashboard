@@ -1,11 +1,19 @@
 import React from 'react'
 import Avatar from '../assets/img/avatar.jpg'
+import Github from '../assets/github-mark.svg'
 
 function Navbar() {
     return (
         <div className="navbar bg-base-100 z-10 shadow-sm">
             <div className="flex-1">
                 {/* <a className="text-xl"> Dashboard </a> */}
+            </div>
+            <div className="flex-2 mr-2">
+                <div className="w-10 rounded-full">
+                    <a href='https://github.com/swiftahul20/react-dashboard' target='_blank'>
+                        <img src={Github} alt='github' />
+                    </a>
+                </div>
             </div>
             <div className="flex-none gap-2">
                 <div className="dropdown dropdown-end">

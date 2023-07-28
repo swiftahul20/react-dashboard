@@ -39,6 +39,9 @@ app.use((err, req, res, next) => {
   res.status(status).json({message, data})
 });
 
+app.get('/', (req, res) => {
+  res.send('<h2> Database is running 🥶 </h2>')
+})
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
