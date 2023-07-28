@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { toastSuccess, toastError } from "../components/Toast.jsx";
 
 export default function UserList() {
     const [users, setUsers] = useState([]);
@@ -19,8 +20,11 @@ export default function UserList() {
     }
 
     const deleteUser = async (id) => {
+        console.log(id);
         try {
-            await axios.delete(`http://localhost:5000/users/${id}`);
+            const response = await axios.delete(`http://localhost:8000/users/${id}`);
+            console.log('Success', response.data);
+            toastSuccess("Profile deleted")
             getUsers();
         } catch (error) {
             console.log(error);
@@ -58,10 +62,10 @@ export default function UserList() {
                             <td> {user.age} </td>
                             <td> - </td>
                             <td className='flex justify-center gap-2'>
-                                <Link 
-                                to={`/edit-user/${user._id}`}
-                                className='btn btn-sm btn-warning'> Edit </Link>
-                                <button onClick={() => deleteUser(user._id)} className='btn btn-sm btn-error'> Delete </button>
+                                <Link
+                                    to={`/edit-user/${user.id}`}
+                                    className='btn btn-sm btn-warning'> Edit </Link>
+                                <button onClick={() => deleteUser(user.id)} className='btn btn-sm btn-error'> Delete </button>
                             </td>
                         </tr>
                     ))}

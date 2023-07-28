@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { GETProvince, GETRegency } from "../api/provinceAPI.jsx";
+import { GETProvince } from "../api/provinceAPI.jsx";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { toastSuccess, toastError } from "../components/Toast.jsx";
 
 const AddUser = () => {
-    const [regency, setRegency] = useState("");
     const [district, setDistrict] = useState("");
 
     const [provinceList, setProvinceList] = useState([]);
@@ -15,6 +14,7 @@ const AddUser = () => {
     const [districtList, setDistrictList] = useState([]);
 
     const [loading, setloading] = useState(false);
+    const navigate = useNavigate();
 
     const getRegencies = async (provinceId) => {
         await axios
@@ -62,24 +62,29 @@ const AddUser = () => {
     };
 
     const onSubmit = async (data) => {
-        // setloading(true);
+        setloading(true);
         try {
             const response = await axios.post("http://localhost:8000/users", data);
-            // setloading(false);
-            toastSuccess("Form is Submitted");
-            console.log(response.data);
+            if (response.status === 201 || response.status === 204) {
+                setloading(false);
+                toastSuccess("Form is Submitted");
+                navigate("/user-list");
+                console.log('success', response.data);
+            } 
         }
         catch (error) {
-            if (error?.response?.data?.status === 401 && error?.response?.data?.errors) {
-                // log the errors to console log
-                for (const e of error.response.data.errors) {
-                    console.log(e);
-                }
-
-                console.log(error.response.data.message);
-                return;
+            if (error.response.status === 400) {
+                const errMsg = error.response.data.data;
+                errMsg.map(function(index) {
+                    return toastError(index.msg)
+                })
+                console.log(error.response.data);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                toastError("Server Error")
+            } else {
+                console.log(error);
             }
-            console.log('Error: Something else is wrong. Error:', error);
         }
     };
 
@@ -107,16 +112,9 @@ const AddUser = () => {
 
     const { errors } = formState;
 
-    // const onSubmit = (data) => {
-    //     toastSuccess("Form is Submitted");
-    //     console.log('Form Submitted', data);
-    // }
-
-
-
     return (
         <div className="bg-white rounded-lg px-6 py-4">
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate disabled>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
                         <div className="py-4 border-b-2">
@@ -124,7 +122,7 @@ const AddUser = () => {
                                 Personal Information Form{" "}
                             </h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">
-                                Use a permanent address where you can receive mail.
+                                Please fill the corresponding form based on your information.
                             </p>
                         </div>
                         <div className="mt-10 grid grid-cols-2 gap-4">
@@ -140,7 +138,7 @@ const AddUser = () => {
                                     {...register("first_name", {
                                         required: {
                                             value: true,
-                                            message: 'First Name is required'
+                                            message: '* First Name is required'
                                         },
                                         minLength: {
                                             value: 2,
@@ -164,7 +162,7 @@ const AddUser = () => {
                                     {...register("last_name", {
                                         required: {
                                             value: true,
-                                            message: 'Last Name is required'
+                                            message: '* Last Name is required'
                                         },
                                         minLength: {
                                             value: 2,
@@ -189,6 +187,10 @@ const AddUser = () => {
                                     placeholder="Email Address"
                                     className="input input-bordered input-sm w-full max-w-xs"
                                     {...register("email", {
+                                        required: {
+                                            value: true,
+                                            message: '* Email is required'
+                                        },
                                         pattern: {
                                             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                                             message: '* Invalid email format',
@@ -242,7 +244,12 @@ const AddUser = () => {
                                     id="street_name"
                                     placeholder="Address"
                                     className="textarea textarea-bordered h-24 textarea-sm"
-                                    {...register("address.street_name")}
+                                    {...register("address.street_name", {
+                                        required: {
+                                            value: true,
+                                            message: "* Address is required"
+                                        }
+                                    })}
                                 ></textarea>
                                 <p className="text-error text-xs py-1 px-1">
                                     {errors.address?.street_name?.message}
@@ -371,7 +378,7 @@ const AddUser = () => {
                         </div>
                     </div>
                 </div>
-                <div className="float-left mt-6 flex items-center justify-end gap-x-6">
+                <div className="mt-6 flex items-center justify-end gap-x-6">
                     <button
                         type="button"
                         onClick={() => reset()}

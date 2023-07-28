@@ -1,76 +1,71 @@
-// import User from '../models/UserModels.js';
-
-// export const getUsers = async (request, response) => {
-//     try {
-//         const users = await User.find();
-//         response.json(users);
-//     } catch (error) {
-//         response.status(500).json({message: error.message})
-//     }
-// }
-
-// export const getUsersById = async (request, response) => {
-//     try {
-//         const user = await User.findById(request.params.id);
-//         response.json(user);
-//     } catch (error) {
-//         response.status(404).json({message: error.message})
-//     }
-// }
-
-// export const saveUser = async (request, response) => {
-//     const user = new User(request.body);
-//     try {
-//         const inserteduser = await user.save();
-//         response.status(200).json(inserteduser);
-//     } catch (error) {
-//         response.status(400).json({message: error.message})
-//     }
-// }
-
-// export const updateUser = async (request, response) => {
-//     try {
-//         const updateeduser = await User.updateOne({_id:request.params.id}, {$set: request.body})
-//         response.status(200).json(updateeduser);
-//     } catch (error) {
-//         response.status(400).json({message: error.message})
-//     }
-// }
-
-// export const deleteUser = async (request, response) => {
-//     try {
-//         const deleteuser = await User.deleteOne({_id:request.params.id})
-//         response.status(201).json(deleteuser);
-//     } catch (error) {
-//         response.status(400).json({message: error.message})
-//     }
-// }
-
 const db = require("../models");
 const Users = db.user;
+const { validationResult } = require("express-validator");
 
-exports.create = (req, res) => {
-  let data = req.body;
-  Users.create(req.body);
-  try {
-    res.status(200).send(req.body);
-  } catch (error) {
-    if (error.response) {
-      // If server responded with a status code for a request
-      console.log("Data ", error.response.data);
-      console.log("Status ", error.response.status);
-      console.log("Headers ", error.response.headers);
-    } else if (error.request) {
-      // Client made a request but response is not received
-      console.log("called", error.request);
-    } else {
-      // Other case
-      console.log("Error", error.message);
-    }
-    // res.status(500).send({message: error.message});
-    return res.status(401).send(error.message);
+exports.create = (req, res, next) => {
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
+  const gender = req.body.gender;
+  const phone = req.body.phone;
+  const dob = req.body.dob;
+  const street_name = req.body.address.street_name;
+  const province = req.body.address.province;
+  const regency = req.body.address.regency;
+  const district = req.body.address.district;
+  const email = req.body.email;
+
+  const errors = validationResult(req);
+
+  const result = {
+    message: "User Profile is submitted.",
+    data: {
+      first_name,
+      last_name,
+      gender,
+      phone,
+      dob,
+      address: {
+        street_name,
+        province,
+        regency,
+        district,
+      },
+      email,
+    },
+  };
+
+  if (!errors.isEmpty()) {
+    const err = new Error("Invalid Value");
+    err.errorStatus = 400;
+    err.data = errors.array();
+    throw err;
+  } else {
+    let data = req.body;
+    Users.create(data);
+    res.status(201).send(result);
   }
 };
+
+// exports.create = (req, res) => {
+//   let data = req.body;
+//   Users.create(req.body);
+
+//   const errors = validationResult(req);
+
+//   if (!errors.isEmpty()) {
+//     const err = new Error("Invalid Value");
+//     err.errorStatus = 400;
+//     err.data = errors.array();
+//     throw err;
+//   }
+
+//   try {
+//     res.status(201).send(data);
+//   } catch (error) {
+//     res.status(400).send("Data is required");
+//   }
+//   res.end();
+// };
 
 exports.findAll = (req, res) => {
   Users.find()
@@ -107,7 +102,7 @@ exports.delete = (req, res) => {
       if (!data) {
         res.status(404).send({ message: "Server | Cannot delete data." });
       }
-      res.send({ message: "Server | Data deleted." });
+      res.send({ message: "Server | Data deleted.", data });
     })
     .catch((err) => res.status(500).send({ message: err.message }));
 };

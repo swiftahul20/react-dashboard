@@ -1,32 +1,27 @@
-// import express from 'express';
-// import { 
-//     getUsers, 
-//     getUsersById,
-//     saveUser,
-//     updateUser,
-//     deleteUser
-//         } from '../app/config/controllers/UserController.js';
-// const router = express.Router();
+module.exports = (app) => {
+  const users = require("../controllers/UserController");
+  const router = require("express").Router();
+  const { body } = require("express-validator");
 
-// router.get('/users', getUsers);
-// router.get('/users/:id', getUsersById);
-// router.post('/users', saveUser);
-// router.patch('/users/:id', updateUser);
-// router.delete('/users/:id', deleteUser);
+  router.get("/", users.findAll);
+  router.get("/:id", users.show);
+  router.post(
+    "/",
+    [
+      body("first_name").isLength({ min: 2 }).withMessage('First Name min 2 characters'),
+      body("last_name").isLength({ min: 2 }),
+      body("gender").notEmpty(),
+      body("phone").isLength({min: 4}).withMessage('Phone is required'),
+      body("address.street_name").notEmpty().withMessage('Street Name is required'),
+      body("address.province").notEmpty().withMessage('Province is required'),
+      body("address.regency").notEmpty().withMessage('Regency is required'),
+      body("address.district").notEmpty().withMessage('District is required'),
+      body("email").isEmail().withMessage('Email is required'),
+    ],
+    users.create // nama controller.nama create.
+  );
+  router.put("/:id", users.update);
+  router.delete("/:id", users.delete);
 
-// export default router;
-
-module.exports = app => {
-    const users = require('../controllers/UserController')
-    const r = require('express').Router();
-
-    r.get("/", users.findAll);
-    r.get("/:id", users.show);
-    r.post("/", users.create);
-    r.put("/:id", users.update);
-    r.delete("/:id", users.delete);
-
-    app.use('/users', r);
-
-    
-}
+  app.use("/users", router);
+};

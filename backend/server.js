@@ -14,10 +14,6 @@ const corsOptions = {
 //register cors middleware
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use((err, req, res, next) => {
-  console.log('congrats you hit the error middleware');
-  console.log(err);
-});
 
 //connect to db
 const mongooseConfig = {
@@ -35,6 +31,14 @@ db.mongoose
 
 // call route user
 require("./app/routes/UserRoute")(app);
+
+app.use((err, req, res, next) => {
+  const status =  err.errorStatus || 500;
+  const message = err.message;
+  const data = err.data;
+  res.status(status).json({message, data})
+});
+
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
