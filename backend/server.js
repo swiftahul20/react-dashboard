@@ -43,5 +43,9 @@ app.get('/', (req, res) => {
   res.send('<h2> Database is running 🥶 </h2>')
 })
 
+app.get('*', (req, res) => {
+  res.send('<h2> 404 </h2>')
+})
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
