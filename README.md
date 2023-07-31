@@ -25,7 +25,6 @@ Using **MERN** (Mongo, Express, React and Node) to build this project.
 - [React Toastify](https://github.com/fkhadra/react-toastify)
 
 
-<<<<<<< HEAD
 ##### How to start this Backend project
 
 - `$ cd react-dashboard/backend`
@@ -46,5 +45,3 @@ Using **MERN** (Mongo, Express, React and Node) to build this project.
 - [Mongoose](https://mongoosejs.com/)
 
 
-=======
->>>>>>> feeb55e165ac1dd86357fa6a3274f1d44e33899b
