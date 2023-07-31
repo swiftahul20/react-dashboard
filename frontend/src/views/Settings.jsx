@@ -5,9 +5,9 @@ export default function Settings() {
   return (
     <div>
       <p>
-        Settings Page
+        Under Development
       </p>
-      <Link className='underline text-8xl' to="/">
+      <Link className='underline text-md' to="/">
         go to dashboard
       </Link>
     </div>

@@ -4,7 +4,7 @@ import Github from '../assets/github-mark.svg'
 
 function Navbar() {
     return (
-        <div className="navbar bg-base-100 z-10 shadow-sm">
+        <div className="navbar bg-base-100 shadow-sm">
             <div className="flex-1">
                 {/* <a className="text-xl"> Dashboard </a> */}
             </div>

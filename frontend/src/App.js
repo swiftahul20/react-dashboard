@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import Settings from "./views/Settings";
 import UserList from "./views/UserList";
 import EditUser from "./views/EditUser";
+import Page404 from "./components/Page404";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="user-list" element={<UserList />} />
         </Route>
         <Route path="login" element={<div> this is login page</div>} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>
   );
