@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ModalDetail } from '../components/Modal.jsx';
 import { toastSuccess, toastError } from "../components/Toast.jsx";
 
-const serverURI = 'http://ec2-3-27-95-22.ap-southeast-2.compute.amazonaws.com:8000';
+const serverURI = 'https://express-api-vercel-rosy.vercel.app';
 
 
 const UserList = (props) => {
@@ -17,6 +17,7 @@ const UserList = (props) => {
     }, []);
 
     const getUsers = async () => {
+        console.log(serverURI);
         try {
             const response = await axios.get(`${serverURI}/users`);
             setUsers(response.data);
@@ -89,8 +90,8 @@ const UserList = (props) => {
                             <td className='flex justify-center gap-2'>
                                 <Link
                                     to={`/edit-user/${user.id}`}
-                                    className='btn btn-sm btn-warning'> Edit </Link>
-                                <button onClick={() => deleteUser(user.id)} className='btn btn-sm btn-error'> Delete </button>
+                                    className='btn btn-xs bg-blue-400 hover:bg-blue-500'> Edit </Link>
+                                <button onClick={() => deleteUser(user.id)} className='btn btn-xs bg-red-400 hover:bg-red-500'> Delete </button>
                             </td>
                         </tr>
                     ))}

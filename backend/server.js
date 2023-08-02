@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const { v4 } = require('uuid');
 const db = require("./app/models");
 const app = express();
+const app2 = express();
 const uri =
   "mongodb+srv://swiftah20:rahasia200292@react-crud-db.h5ebwng.mongodb.net/?retryWrites=true&w=majority";
 
@@ -39,9 +41,22 @@ app.use((err, req, res, next) => {
   res.status(status).json({message, data})
 });
 
+app.get('/api', (req, res) => {
+  const path = `/api/item/${v4()}`;
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
+});
+
+app.get('/api/item/:slug', (req, res) => {
+  const { slug } = req.params;
+  res.end(`Item: ${slug}`);
+});
+
 app.get('/', (req, res) => {
   res.send('<h2> Database is running 🥶 </h2>')
 })
+
 
 app.get('*', (req, res) => {
   res.send('<h2> 404 </h2>')
@@ -49,3 +64,5 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
+
+module.exports = app;

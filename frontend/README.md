@@ -25,26 +25,3 @@ Using **MERN** (Mongo, Express, React and Node) to build this project.
 - [React Toastify](https://github.com/fkhadra/react-toastify)
 
 
-<<<<<<< HEAD
-##### How to start this Backend project
-
-- `$ cd react-dashboard/backend`
-- `$ npm run dev`
-
-
-### Backend Features
-- Express Validation
-- Mongoose Validation
-
-
-#### Backend Dependencies
-- [Body-Parser](https://www.npmjs.com/package/body-parser)
-- [CORS](https://www.npmjs.com/package/cors)
-- [Express](https://expressjs.com/)
-- [Express Validator](https://express-validator.github.io/docs/)
-- [MongoDB](https://www.mongodb.com/)
-- [Mongoose](https://mongoosejs.com/)
-
-
-=======
->>>>>>> feeb55e165ac1dd86357fa6a3274f1d44e33899b

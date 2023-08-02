@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Router, Route } from "react-router-dom";
-import User from "./views/User";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddUser from "./views/AddUser";
 import Dashboard from "./views/Dashboard";
 import Layout from "./components/Layout";

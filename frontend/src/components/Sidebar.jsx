@@ -1,6 +1,6 @@
 import React from 'react'
 import navigation from '../lib/constants/navigation';
-import { NavLink, Routes, Link, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import TailwindIcon from '../assets/tailwindcss-mark.3c5441fc7a190fb1800d4a5c7f07ba4b1345a9c8.svg';
 
 const Sidebar = () => {
@@ -29,7 +29,8 @@ const Sidebar = () => {
                                         ))}
                                         <summary>{item.icon}{item.name}</summary>
                                     </details>
-                                ) : <NavLink to={item.path} >
+                                ) : 
+                                <NavLink to={item.path} >
                                     {item.icon}
                                     {item.name}
                                 </NavLink >
