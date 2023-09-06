@@ -1,0 +1,34 @@
+GET http://localhost:8080/welcome
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTMxMTk4NzAsImV4cCI6MTY5MzExOTg5MH0.cNb9T9LHQUkcB0dDUuSts1mZPS881VYEiI0EyEqQAzE
+###
+
+POST http://localhost:8080/auth/refresh-token
+Content-Type: application/json
+
+{
+    "token":
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGQwNGFiN2VhOGRiYjhmZmU5OTM1YzUiLCJpYXQiOjE2OTMxMTk4NDZ9.ZkFkq4VSWbp1ZTJh3yNewSyeMFkGOAYqO0KpnAFZUxI"
+}
+
+###
+
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "swiftah@gmail.com",
+    "password":"123456"
+}
+
+
+####
+
+DELETE http://localhost:8080/logout
+Content-Type: application/json
+
+{
+    "token": 
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGFuZG9vcmkiLCJpYXQiOjE2OTE4MDQ4MDZ9.Rwct5vd132p5we35XBqOgsufhnrnr1Aps0d3ZOZegx8"
+}
+
+###

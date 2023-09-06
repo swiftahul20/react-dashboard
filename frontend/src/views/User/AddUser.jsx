@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { GETProvince } from "../api/provinceAPI.jsx";
+import { GETProvince } from "../../api/provinceAPI.jsx";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { toastSuccess, toastError } from "../components/Toast.jsx";
+import { toastSuccess, toastError } from "../../components/Toast.jsx";
 
 const serverURI = 'http://ec2-3-27-95-22.ap-southeast-2.compute.amazonaws.com:8000';
 

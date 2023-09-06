@@ -1,68 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const { v4 } = require('uuid');
-const db = require("./app/models");
-const app = express();
-const app2 = express();
-const uri =
-  "mongodb+srv://swiftah20:rahasia200292@react-crud-db.h5ebwng.mongodb.net/?retryWrites=true&w=majority";
+const http = require("http");
+const app = require("./app");
+const server = http.createServer(app);
 
-const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
+const { API_PORT } = process.env;
+const port = process.env.PORT || API_PORT;
 
-//register cors middleware
-app.use(cors(corsOptions));
-app.use(express.json());
-
-//connect to db
-const mongooseConfig = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-db.mongoose
-  .connect(uri, mongooseConfig)
-  .then(() => console.log("database connected.."))
-  .catch((err) => {
-    console.log(`connection failed ${err.message}`);
-    process.exit();
-  });
-
-// call route user
-require("./app/routes/UserRoute")(app);
-
-app.use((err, req, res, next) => {
-  const status =  err.errorStatus || 500;
-  const message = err.message;
-  const data = err.data;
-  res.status(status).json({message, data})
+// server listening 
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
-
-app.get('/api', (req, res) => {
-  const path = `/api/item/${v4()}`;
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
-
-app.get('/api/item/:slug', (req, res) => {
-  const { slug } = req.params;
-  res.end(`Item: ${slug}`);
-});
-
-app.get('/', (req, res) => {
-  res.send('<h2> Database is running 🥶 </h2>')
-})
-
-
-app.get('*', (req, res) => {
-  res.send('<h2> 404 </h2>')
-})
-
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`server started on port ${PORT}`));
-
-module.exports = app;

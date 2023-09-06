@@ -28,7 +28,7 @@ export default function Dashboard() {
     <div className="grid grid-cols-3 gap-6">
       <div className='w-full h-32 border border-gray-200 drop-shadow-sm rounded-lg bg-white'>
         <p className='text-md text-gray-600 px-8 pt-8 pb-3 tracking-widest'> Total Profile </p>
-        <span className={loading ? "loading loading-dots loading-md" : "text-3xl font-bold text-black px-8 tracking-wide"}>{profiles}</span>
+        <span className={loading ? "loading loading-spinner loading-lg ml-8 py-2" : "text-3xl font-bold text-black px-8 tracking-wide"}>{profiles}</span>
       </div>
       <div className='w-full h-32 border border-gray-200 drop-shadow-sm rounded-lg bg-white'>
         <p className='text-md text-gray-600 px-8 pt-8 pb-3 tracking-widest'> Total -- </p>

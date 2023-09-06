@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { ModalDetail } from '../components/Modal.jsx';
-import { toastSuccess, toastError } from "../components/Toast.jsx";
+import { toastSuccess } from "../../components/Toast.jsx";
+import { ModalDetail } from '../../components/Modal.jsx'
 
 const serverURI = 'https://express-api-vercel-rosy.vercel.app';
 
@@ -17,10 +17,11 @@ const UserList = (props) => {
     }, []);
 
     const getUsers = async () => {
-        console.log(serverURI);
+        setloading(true)
         try {
             const response = await axios.get(`${serverURI}/users`);
             setUsers(response.data);
+            setloading(false)
         } catch (error) {
             console.log(error);
         }
@@ -30,7 +31,6 @@ const UserList = (props) => {
         console.log(id);
         try {
             const response = await axios.delete(`${serverURI}/users/${id}`);
-            console.log('Success', response.data);
             toastSuccess("Profile deleted")
             getUsers();
         } catch (error) {
@@ -41,13 +41,10 @@ const UserList = (props) => {
     const getID = async (e) => {
         e.preventDefault();
         const ids = e.target.id;
-        setloading(true);
-        console.log(ids);
         try {
             const response = await axios.get(`${serverURI}/users/${ids}`);
             window.modal_detail.showModal();
             setUser(response.data)
-            setloading(false);
         } catch (error) {
             console.log(error);
         }
@@ -61,7 +58,7 @@ const UserList = (props) => {
                 <p className="mt-1 text-sm leading-6 text-gray-600"> List of all profile and their details. </p>
             </div>
             <dialog id="modal_detail" className="modal">
-                <ModalDetail {...user} {...loading} />
+                <ModalDetail {...user} />
             </dialog>
             <table className="table">
                 {/* head */}
@@ -69,34 +66,41 @@ const UserList = (props) => {
                     <tr>
                         <th> No </th>
                         <th> First Name </th>
-                        <th> last Name </th>
+                        <th> Last Name </th>
                         <th> Email </th>
                         <th> Gender </th>
                         <th className='text-center'> Option </th>
                     </tr>
                 </thead>
-                <tbody>
-                    {users.map((user, index) => (
-                        <tr key={index}>
-                            <th> {index + 1} </th>
-                            <th>
-                                <button id={user.id} className='hover:text-info' onClick={getID}>
-                                    {user.first_name}
-                                </button>
-                            </th>
-                            <th> {user.last_name} </th>
-                            <td> {user.email ? user.email : "-"} </td>
-                            <td> {user.gender ? user.gender : "-"} </td>
-                            <td className='flex justify-center gap-2'>
-                                <Link
-                                    to={`/edit-user/${user.id}`}
-                                    className='btn btn-xs bg-blue-400 hover:bg-blue-500'> Edit </Link>
-                                <button onClick={() => deleteUser(user.id)} className='btn btn-xs bg-red-400 hover:bg-red-500'> Delete </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
+                {!loading ? (
+
+                    <tbody>
+                        {users.map((user, index) => (
+                            <tr key={index}>
+                                <th> {index + 1} </th>
+                                <th>
+                                    <button id={user.id} className='hover:text-info' onClick={getID}>
+                                        {user.first_name}
+                                    </button>
+                                </th>
+                                <th> {user.last_name} </th>
+                                <td> {user.email ? user.email : "-"} </td>
+                                <td> {user.gender ? user.gender : "-"} </td>
+                                <td className='flex justify-center gap-2'>
+                                    <Link
+                                        to={`/edit-user/${user.id}`}
+                                        className='btn btn-xs bg-blue-400 hover:bg-blue-500'> Edit </Link>
+                                    <button onClick={() => deleteUser(user.id)} className='btn btn-xs bg-red-400 hover:bg-red-500'> Delete </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                ) : <td colSpan={6} className='text-center'>
+                    <span className="loading loading-spinner loading-lg"></span>
+                    </td>
+                }
             </table>
+
         </div>
     )
 }

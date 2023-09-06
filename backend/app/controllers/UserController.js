@@ -46,27 +46,6 @@ exports.create = (req, res, next) => {
   }
 };
 
-// exports.create = (req, res) => {
-//   let data = req.body;
-//   Users.create(req.body);
-
-//   const errors = validationResult(req);
-
-//   if (!errors.isEmpty()) {
-//     const err = new Error("Invalid Value");
-//     err.errorStatus = 400;
-//     err.data = errors.array();
-//     throw err;
-//   }
-
-//   try {
-//     res.status(201).send(data);
-//   } catch (error) {
-//     res.status(400).send("Data is required");
-//   }
-//   res.end();
-// };
-
 exports.findAll = (req, res) => {
   Users.find()
     .then((data) => res.send(data))
